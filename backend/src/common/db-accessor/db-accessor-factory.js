@@ -2,7 +2,7 @@ const constants = require('../constants');
 const SqliteDbAccessor = require('./sqlite-db-accessor');
 
 class DbAccessorFactory {
-    static getDb(dbName, args) {
+    static buildDb(dbName, args = {}) {
         switch (dbName) {
             case constants.DB_NAME.SQLITE:
                 return new SqliteDbAccessor(args).getDb();

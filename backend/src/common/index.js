@@ -1,4 +1,5 @@
 module.exports = {
     constants: require('./constants'),
-    DbAccessorFactory: require('./db-accessor/db-accessor-factory')
+    DbAccessorFactory: require('./db-accessor/db-accessor-factory'),
+    Dao: require('./dao/dao')
 };
