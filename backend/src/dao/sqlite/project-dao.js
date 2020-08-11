@@ -1,6 +1,6 @@
-const { Dao } = require('../common');
+const { Dao } = require('../../common');
 
-class UserDao extends Dao {
+class ProjectDao extends Dao {
     create(entity) {
         throw new Error('Method not implemented');
     }
@@ -22,4 +22,4 @@ class UserDao extends Dao {
     }
 }
 
-module.exports = UserDao;
+module.exports = ProjectDao;

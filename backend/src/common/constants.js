@@ -11,7 +11,7 @@ const constants = {
     },
 
     TASK_STATUS: {
-        READY : {
+        READY: {
             ID: 1,
             NAME: 'Ready',
             DESCR: 'Task is ready to be assigned and started'
@@ -26,6 +26,13 @@ const constants = {
             NAME: 'Finished',
             DESCR: 'Task is finished'
         }
+    },
+
+    ENTITY: {
+        PROJECT: 'Project',
+        ASSIGNEE: 'Assignee',
+        TASK: 'Task',
+        TASK_STATUS: 'Task Status'
     }
 };
 

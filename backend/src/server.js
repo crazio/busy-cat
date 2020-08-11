@@ -1,22 +1,46 @@
-const { constants, DbAccessorFactory } = require('./common');
+const { constants } = require('./common');
+const { DbAccessorFactory } = require('./db-accessor');
 const { argv } = require('yargs');
-const taskRouter = require('./router/task');
-const App = require('./app');
+const { taskHandler } = require('./handler');
+const express = require('express');
 
-const getDb = (dbName) => {
-    return DbAccessorFactory.buildDb(dbName);
+const ROUTER_HANDLER_MAP = {
+    TASK: {
+        path: '/tasks',
+        handler: taskHandler
+    }
 };
 
-const setupRouters = (app) => {
-    app.addRouter('/tasks', taskRouter);
+const createRouterAndMapWithHandler = (handler, dbAccessor) => {
+    const router = express.Router();
+    handler(router, dbAccessor);
+    return router;
+};
+
+const getDbAccessor = (dbName) => {
+    return DbAccessorFactory.buildDb(dbName || constants.DB_NAME.SQLITE);
+};
+
+const setAppRouters = (app) => {
+    const dbAccessor = getDbAccessor(argv.db);
+    Object.keys(ROUTER_HANDLER_MAP).forEach((key) => {
+        const mapper = ROUTER_HANDLER_MAP[key];
+        const router = createRouterAndMapWithHandler(mapper.handler, dbAccessor);
+        app.use(mapper.path, router);
+    });
+};
+
+const setupApp = (app) => {
+    setAppRouters(app);
 };
 
 const server = () => {
+    const app = express();
+    setupApp(app);
     const port = argv.port || 3000;
-    const db = getDb(argv.db || constants.DB_NAME.SQLITE);
-    const app = new App(db);
-    setupRouters(app);
-    return app.listen(port);
+    return app.listen(port, () => {
+        console.log(`Server is listening on port: ${port}`);
+    });
 };
 
 module.exports = server;

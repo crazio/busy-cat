@@ -5,7 +5,9 @@ class DaoFactory {
         this.daoMap[name] = creator;
     }
 
-    buildDao(name) {
-        return new this.daoMap[name]();
+    buildDao(name, args) {
+        return new this.daoMap[name](args);
     }
 }
+
+module.exports = DaoFactory;
