@@ -1,10 +1,15 @@
 const { constants } = require('./common');
 const { DbAccessorFactory } = require('./db-accessor');
 const { argv } = require('yargs');
-const { taskHandler } = require('./handler');
+const { taskHandler, assigneeHandler } = require('./handler');
+const bodyParser = require('body-parser');
 const express = require('express');
 
 const ROUTER_HANDLER_MAP = {
+    ASSIGNEE: {
+        path: '/assignees',
+        handler: assigneeHandler
+    },
     TASK: {
         path: '/tasks',
         handler: taskHandler
@@ -30,7 +35,12 @@ const setAppRouters = (app) => {
     });
 };
 
+const setupMiddleware = (app) => {
+    app.use(bodyParser.json());
+};
+
 const setupApp = (app) => {
+    setupMiddleware(app);
     setAppRouters(app);
 };
 

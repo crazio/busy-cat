@@ -2,14 +2,12 @@ const path = require('path');
 const sqlite3 = require('sqlite3');
 const { DbAccessor, constants } = require('../../common');
 const SQL = require('../sql/sqlite');
-const { AssigneeDao, ProjectDao, TaskDao, TaskStatusDao } = require('../../dao/sqlite');
+const { SqliteDaoFactory } = require('../../dao');
 
 class SqliteDbAccessor extends DbAccessor {
-    registerDaoObjects() {
-        this.daoFactory.registerDao(constants.ENTITY.PROJECT, ProjectDao);
-        this.daoFactory.registerDao(constants.ENTITY.ASSIGNEE, AssigneeDao);
-        this.daoFactory.registerDao(constants.ENTITY.TASK, TaskDao);
-        this.daoFactory.registerDao(constants.ENTITY.TASK_STATUS, TaskStatusDao);
+    constructor(args) {
+        super(args);
+        this.daoFactory = new SqliteDaoFactory();
     }
 
     getDbConnection(args) {

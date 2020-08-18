@@ -3,4 +3,5 @@ module.exports = {
     DbAccessor: require('./db-accessor'),
     Dao: require('./dao/dao'),
     DaoFactory: require('./dao/dao-factory'),
+    RouterService: require('./router-service')
 };
